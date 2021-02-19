@@ -10,6 +10,7 @@ class sql_api:
         # print(self.engine.url)
         # connection = engine.connect()
 
+    #TODO:
     def create_schemas(self):
 
         pass
@@ -56,7 +57,7 @@ class sql_api:
                     station["last_update"])
             print(vals)
             self.engine.execute("insert into stations value(%s,%s,%s,%s,%s,%s,%s,%s,%s)", vals)
-            break
+            # break
 
     #TODO:
     def select_data(self, ):

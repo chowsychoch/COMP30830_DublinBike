@@ -27,3 +27,4 @@ if __name__ == '__main__':
         sql_obj.insert_stations_to_db(jcd_obj.staions)
         time.sleep(5*60)
 
+
