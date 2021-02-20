@@ -46,4 +46,13 @@ class BikeStation_api:
                               last_update = station["last_update"])
             self.session.add(newSta)
             self.session.commit()
-            break
+
+    #TODO:
+    def select_data(self, ):
+
+        pass
+
+    #TODO:
+    def create_schemas(self):
+
+        pass
