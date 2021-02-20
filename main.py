@@ -4,23 +4,26 @@ from utilities.dataScraping import JCD_api
 from utilities.SQL_api import sql_api
 from sqlalchemy import create_engine
 from dao.BikeStationsDao import BikeStation_api
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
-URI = "dbike.cthcb1yq49ko.us-east-1.rds.amazonaws.com"
+URI = os.getenv("URI")
 PORT = "3306"
-PASSWORD ="ucd_s2_2021"
-DB = "dbike"
-USER = "root"
+PASSWORD = os.getenv("PASSWORD")
+DB = os.getenv("DB")
+USER = os.getenv("User")
 
-CONTRACT="Dublin" # name of contract
-API="https://api.jcdecaux.com/vls/v1/stations" # and the JCDecaux endpoint
+CONTRACT = "dublin"  # name of contract
+API = os.getenv("API")  # and the JCDecaux endpoint
 # API key should be hided
-APIKEY = "45d8f343287c8759db0349d757fa9f77df198b71"
+APIKEY = os.getenv("APIKEY")
 
 
 if __name__ == '__main__':
 
-	# new crawling Api
-	# just keep one engine to use and pass to the BikeStation_api
+        # new crawling Api
+        # just keep one engine to use and pass to the BikeStation_api
     engine = create_engine("mysql+pymysql://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
     # create table
     Base.metadata.create_all(engine)
@@ -35,5 +38,3 @@ if __name__ == '__main__':
         dao.insert_stations_to_db(jcd_obj.staions)
         # sql_obj.insert_stations_to_db(jcd_obj.staions)
         time.sleep(5*60)
-
-
