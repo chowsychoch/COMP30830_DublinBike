@@ -19,7 +19,7 @@ APIKEY = "45d8f343287c8759db0349d757fa9f77df198b71"
 
 if __name__ == '__main__':
 
-	# new crawling 
+	# new crawling Api
 	# just keep one engine to use and pass to the BikeStation_api
     engine = create_engine("mysql+pymysql://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
     # create table
