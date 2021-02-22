@@ -50,7 +50,7 @@ class BikeStation_api:
                 self.session.commit()
             except Exception as e:
                 self.session.rollback()
-                print('here loop inside',e)
+                print('Error message',e)
                 pass
         # except Exception as e:
         #     print("sss", e)
