@@ -6,6 +6,8 @@ from dao.BikeStationsDao import BikeStation_api
 from dotenv import load_dotenv
 import os
 
+config_path = "local_path/.env"
+
 load_dotenv()
 
 URI = os.getenv("URI")
@@ -43,10 +45,9 @@ if __name__ == '__main__':
             jcd_obj.sendRequest()
             # insert rows into RDS
             dao.insert_stations_to_db(jcd_obj.staions)
-
             # pause for 5 min
             print("sleep for five min")
-            time.sleep(5*60)
+            time.sleep(2*60)
         except:
-            print("Error: Duplicate data!!!")
-            time.sleep(1 * 60)
+            print("Error: All data is duplicated!!!")
+            time.sleep(15)

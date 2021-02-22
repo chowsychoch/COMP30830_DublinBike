@@ -34,18 +34,22 @@ class BikeStation_api:
     def insert_stations_to_db(self, stations: list):
         # station : dictionary
         for station in stations:
-            station = self.filter_Station(station)
-            newSta = Stations(number = station["number"],
-                              name = station["name"],
-                              address = station["address"],
-                              pos_lat = station["pos_lat"],
-                              pos_lng = station["pos_lng"],
-                              bike_stands = station["bike_stands"],
-                              available_bike_stands = station["available_bike_stands"],
-                              available_bikes = station["available_bikes"],
-                              last_update = station["last_update"])
-            self.session.add(newSta)
-            self.session.commit()
+            try:
+
+                station = self.filter_Station(station)
+                newSta = Stations(number = station["number"],
+                                  name = station["name"],
+                                  address = station["address"],
+                                  pos_lat = station["pos_lat"],
+                                  pos_lng = station["pos_lng"],
+                                  bike_stands = station["bike_stands"],
+                                  available_bike_stands = station["available_bike_stands"],
+                                  available_bikes = station["available_bikes"],
+                                  last_update = station["last_update"])
+                self.session.add(newSta)
+                self.session.commit()
+            except Exception as ex:
+                print(station + ": " + ex)
 
     #TODO:
     def select_data(self, ):
