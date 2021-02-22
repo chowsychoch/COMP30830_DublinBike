@@ -17,7 +17,6 @@ setup(
         'dotenv',
     },
     entry_points={
-        'console_scripts': ['tSum_dublinBike:main']
+        'console_scripts': ['tSum_dublinBike=main:main']
     }
-
 )
