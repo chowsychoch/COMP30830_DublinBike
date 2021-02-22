@@ -25,7 +25,6 @@ def main():
     # just keep one engine to use and pass to the BikeStation_api
     engine = create_engine("mysql+pymysql://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
 
-
     # create stations table in RDS
     Base.metadata.create_all(engine)
 

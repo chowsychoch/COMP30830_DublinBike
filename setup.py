@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name='COMP30830_DublinBike',
     version='1.0',
-    packages=['utilities'],
+    packages=['utilities','systeminfo'],
     url='https://github.com/chowsychoch/COMP30830_DublinBike.git',
     license='',
     author='3Sum',
