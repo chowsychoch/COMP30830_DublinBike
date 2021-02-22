@@ -20,13 +20,11 @@ CONTRACT = "dublin"  # name of contract
 API = os.getenv("API")  # and the JCDecaux endpoint
 APIKEY = os.getenv("APIKEY")
 
-
-
-if __name__ == '__main__':
-
+def main():
     # new crawling Api
     # just keep one engine to use and pass to the BikeStation_api
     engine = create_engine("mysql+pymysql://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
+
 
     # create stations table in RDS
     Base.metadata.create_all(engine)
@@ -37,7 +35,6 @@ if __name__ == '__main__':
     # create JCD api obj
     jcd_obj = JCD_api(CONTRACT, API, APIKEY)
 
-
     # TODO: add some log record function.
     while True:
         try:
@@ -47,7 +44,12 @@ if __name__ == '__main__':
             dao.insert_stations_to_db(jcd_obj.staions)
             # pause for 5 min
             print("sleep for five min")
-            time.sleep(5*60)
+            time.sleep(5 * 60)
         except Exception as e:
-            print("something wrong",e)
+            print("something wrong", e)
             time.sleep(1 * 60)
+
+
+if __name__ == '__main__':
+
+    main()
