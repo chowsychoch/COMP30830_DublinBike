@@ -33,9 +33,11 @@ class BikeStation_api:
     '''
     def insert_stations_to_db(self, stations: list):
         # station : dictionary
+        # try: 
         for station in stations:
-            station = self.filter_Station(station)
-            newSta = Stations(number = station["number"],
+            try:
+                station = self.filter_Station(station)
+                newSta = Stations(number = station["number"],
                               name = station["name"],
                               address = station["address"],
                               pos_lat = station["pos_lat"],
@@ -44,8 +46,14 @@ class BikeStation_api:
                               available_bike_stands = station["available_bike_stands"],
                               available_bikes = station["available_bikes"],
                               last_update = station["last_update"])
-            self.session.add(newSta)
-            self.session.commit()
+                self.session.add(newSta)
+                self.session.commit()
+            except Exception as e:
+                self.session.rollback()
+                print('here loop inside',e)
+                pass
+        # except Exception as e:
+        #     print("sss", e)
 
     #TODO:
     def select_data(self, ):

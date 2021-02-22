@@ -47,6 +47,6 @@ if __name__ == '__main__':
             # pause for 5 min
             print("sleep for five min")
             time.sleep(5*60)
-        except:
+        except Exception as e:
             print("Error: Duplicate data!!!")
             time.sleep(1 * 60)
