@@ -49,11 +49,9 @@ class BikeStation_api:
                 self.session.add(newSta)
                 self.session.commit()
             except Exception as e:
-                self.session.rollback()
+                self.session.rollback() # fix bug in commit 31509e2dc0cc62683d4c8249a0769cf5520ca01f
                 print('Error message',e)
                 pass
-        # except Exception as e:
-        #     print("sss", e)
 
     #TODO:
     def select_data(self, ):
