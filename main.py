@@ -6,9 +6,9 @@ from dao.BikeStationsDao import BikeStation_api
 from dotenv import load_dotenv
 import os
 
-config_path = "local_path/.env"
-
-load_dotenv()
+local_path = os.path.abspath(os.path.dirname(__file__))
+config_path = local_path+"/.env"
+load_dotenv(config_path)
 
 URI = os.getenv("URI")
 PORT = "3306"
