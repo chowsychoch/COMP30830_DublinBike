@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name='COMP30830_DublinBike',
     version='1.0',
-    packages=['utilities','systeminfo'],
+    packages=['utilities','models'],
     url='https://github.com/chowsychoch/COMP30830_DublinBike.git',
     license='',
     author='3Sum',
@@ -17,6 +17,6 @@ setup(
         'dotenv',
     },
     entry_points={
-        'console_scripts': ['tSum_dublinBike=systeminfo.main:main']
+        'console_scripts': ['tSum_dublinBike=main:main']
     }
 )
