@@ -1,8 +1,11 @@
 import time
 from models.BikeStations import Base
+from models.Weather import Base
 from utilities.dataScraping import JCD_api
+from utilities.weatherScraping import Weather_api
 from sqlalchemy import create_engine
 from dao.BikeStationsDao import BikeStation_api
+from dao.WeatherDao import weather_api
 from dotenv import load_dotenv
 import os
 
@@ -19,6 +22,9 @@ USER = os.getenv("User") # note: USER will get user name of this computer.
 CONTRACT = "dublin"  # name of contract
 API = os.getenv("API")  # and the JCDecaux endpoint
 APIKEY = os.getenv("APIKEY")
+#weather api key
+appid="ac8d0dd5f40c8d6da60fd0785a3f75c4"
+api="https://api.openweathermap.org/data/2.5/onecall"
 
 def main():
     # new crawling Api
@@ -30,17 +36,22 @@ def main():
 
     # create dao obj
     dao = BikeStation_api(engine)
+    dao_weather = weather_api(engine)
 
     # create JCD api obj
     jcd_obj = JCD_api(CONTRACT, API, APIKEY)
+    weather_api_obj = Weather_api(api, appid)
 
     # TODO: add some log record function.
     while True:
         try:
             # request JCD stations data
             jcd_obj.sendRequest()
+            weather_api_obj.sendRequest()
             # insert rows into RDS
             dao.insert_stations_to_db(jcd_obj.staions)
+            ## filter result for wather api 
+            dao_weather.filter_weather_action(weather_api_obj.staions)
             # pause for 5 min
             print("sleep for five min")
             time.sleep(5 * 60)
