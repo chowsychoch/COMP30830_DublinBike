@@ -1,6 +1,5 @@
 import requests
 import json
-
 import sys
 import os
 
@@ -11,22 +10,30 @@ sys.path.append(rootPath)
 
 class Weather_api:
 
-    def __init__(self,api,appid):
+    def __init__(self, api, appid):
         self._api = api
         self._appid = appid
         self._request = None
-        self.staions = None
-        self.lat = 53.3568
-        self.lon = -6.26814
+        # data type of station is a list of dictionary. e.g. [{},{},{}...]
+        self.staions = []
+        # self.lat = 53.3568
+        # self.lon = -6.26814
 
-    def sendRequest(self):
+    def sendRequest(self, lat, lon):
         try:
-            self._request = requests.get(self._api, params={"appid": self._appid,"lat":self.lat,"lon":self.lon})
-            # print(self._request.url)
+            self._request = requests.get(self._api, params={"appid": self._appid,"lat": lat,"lon": lon})
+            print(self._request.url)
             json.loads(self._request.text)
-            self.staions = self._request.json()
-            # print(self.staions)
+            self.staions.append(self._request.json())
         except:
             print("send request fail: ", self._request)
 
-
+    # historical data use api_history.
+    def sendRequest_h(self, lat, lon, dt):
+        try:
+            self._request = requests.get(self._api, params={"appid": self._appid, "lat": lat, "lon": lon, "dt": dt})
+            print(self._request.url)
+            json.loads(self._request.text)
+            self.staions.append(self._request.json())
+        except:
+            print("send request fail: ", self._request)

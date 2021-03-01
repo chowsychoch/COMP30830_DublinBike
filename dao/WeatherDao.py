@@ -9,8 +9,9 @@ class weather_api:
         self.engine = engine
         DBSession = sessionmaker(bind=self.engine)
         self.session = DBSession()
-    
-    def filter_Weather(self,arr):
+
+    # TODO: filter useful columns
+    def filter_Weather(self, arr):
         # for item in current:
         #     'dt': datetime.datetime.fromtimestamp(arr['dt']/1e3),
         #     'sunrise': datetime.datetime.fromtimestamp(arr['sunrise']/1e3)
@@ -32,6 +33,8 @@ class weather_api:
             weather = self.filter_Weather(weathers)
             print(weather)
 
-    def insert_weather_to_db():
+    #TODO: create weather schema and insert scraped data.
+    def insert_weather_to_db(self):
+
         pass
     

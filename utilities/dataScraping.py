@@ -16,6 +16,7 @@ class JCD_api:
         self._api = api
         self._apikey = apikey
         self._request = None
+        # date type of stations is list of dictionary (json)
         self.staions = None
         # self.sendRequest()
 
