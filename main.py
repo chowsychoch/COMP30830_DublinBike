@@ -29,9 +29,10 @@ API = os.getenv("API")  # and the JCDecaux endpoint
 APIKEY = os.getenv("APIKEY")
 
 #weather api key
-appid="ac8d0dd5f40c8d6da60fd0785a3f75c4"
-api="https://api.openweathermap.org/data/2.5/onecall"
-api_history = "https://api.openweathermap.org/data/2.5/onecall/timemachine"
+appid=os.getenv("APIKEY_W")
+api= os.getenv("API_W")
+api_history = os.getenv("API_W")
+api_city =os.getenv("API_W_CITY")
 
 
 class myThread (threading.Thread):
@@ -43,20 +44,37 @@ class myThread (threading.Thread):
         self.dao_weather = dao_weather
    def run(self):
         print("Starting " + str(self.threadID))
-        weather_api_run(self.jcd_obj,self.weather_obj,self.dao_weather)
+        # weather_api_history_run(self.jcd_obj,self.weather_obj,self.dao_weather)
+        weather_api_city_run(self.jcd_obj,self.weather_obj,self.dao_weather)
         print("Exiting " + str(self.threadID))
         return
 
-def weather_api_run(jcd_api_obj,weather_api_obj,dao_weather):
+def weather_api_history_run(jcd_api_obj,weather_api_obj,dao_weather):
 
     for station in jcd_api_obj.staions:
-        weather_api_obj.sendRequest_h(station["position"]['lat'], station["position"]['lng'], station['last_update'])
-        time.sleep(0.2)
+        weather_api_obj.sendRequest(station["position"]['lat'], station["position"]['lng'], station['last_update'])
 
+    # just for view the data
     with open('data.json', 'w', encoding='utf-8') as f:
         json.dump(weather_api_obj.staions, f, ensure_ascii=False, indent=4)
 
+    ## filter result for wather api
+    # dao_weather.filter_weather_action(weather_api_obj.staions)
+
+    # TODO: Insert date to weather table.
+
+    # clear stations cause it use append to add new list.
     weather_api_obj.staions = []
+    return
+
+
+def weather_api_city_run(jcd_api_obj, weather_api_obj, dao_weather):
+    # Dublin city code : 2964574
+    weather_api_obj.sendRequest(2964574)
+
+    # just for view the data
+    with open('data.json', 'w', encoding='utf-8') as f:
+        json.dump(weather_api_obj.staions, f, ensure_ascii=False, indent=4)
 
     ## filter result for wather api
     # dao_weather.filter_weather_action(weather_api_obj.staions)
@@ -80,7 +98,7 @@ def main():
 
     # create JCD api obj
     jcd_api_obj = JCD_api(CONTRACT, API, APIKEY)
-    weather_api_obj = Weather_api(api, appid)
+    weather_api_obj = Weather_api(api_city, appid)
 
     # TODO: add some log record function.
     while True:
@@ -88,17 +106,17 @@ def main():
             print("restart")
             # request JCD stations data
             jcd_api_obj.sendRequest()
-            # using jcd_api_obj.staions to grep loation and time of each station as parameters of weather_api_obj.sendRequest()
 
+            # using jcd_api_obj.staions to grep loation and time of each station as parameters of weather_api_obj.sendRequest()
             # create new thread to mapping bike station info with weather info.
-            thread1 = myThread(1, jcd_api_obj, weather_api_obj, dao_weather)
+            thread1 = myThread(1, jcd_api_obj, weather_api_obj, dao_weather);
             thread1.start()
 
             # insert rows into RDS
-            dao_bike.insert_stations_to_db(jcd_api_obj.staions)
+            # dao_bike.insert_stations_to_db(jcd_api_obj.staions)
             # pause for 5 min
             print("sleep for five min")
-            time.sleep(5 * 60)
+            time.sleep(10 * 60)
         except Exception as e:
             print("something wrong", e)
             time.sleep(1 * 60)
