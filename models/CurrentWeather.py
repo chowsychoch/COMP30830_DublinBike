@@ -13,8 +13,12 @@ Base = declarative_base()
 '''create the model to save the data crawling from the Internet'''
 class Weather(Base):
     __tablename__ = 'weather'
-    number = Column('number', Integer, primary_key=True)
+    # number = Column('number', Integer, primary_key=True)
     lat = Column('lat', Float)
-    lng = Column('lng', Float)
+    lon = Column('lon', Float)
     timezone = Column('timezone', String(128))
-    current = Column('current', DATETIME)
+    current = Column('current', DATETIME, primary_key=True)
+    weather_id = Column('wether_id', Integer, primary_key=True)
+    wind_speed = Column('wind_speed', Float)
+    temperature = Column('temperature', Float)
+    description = Column('description', String(100))
