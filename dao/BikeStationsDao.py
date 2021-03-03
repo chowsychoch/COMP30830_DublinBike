@@ -22,7 +22,7 @@ class BikeStation_api:
     get the data mapping to the table of database and 
     use a function filter some data. we don't need all the data from json
     '''
-    def filter_Station(self, arr):
+    def __filter_Station(self, arr):
         return {
                  'number': int(arr['number']),
                  'name': arr['name'],
@@ -43,7 +43,7 @@ class BikeStation_api:
         # try: 
         for station in stations:
             try:
-                station = self.filter_Station(station)
+                station = self.__filter_Station(station)
                 newSta = Stations(number = station["number"],
                               name = station["name"],
                               address = station["address"],

@@ -1,12 +1,12 @@
 from datetime import datetime
 import time
 from models.BikeStations import Base
-from models.Weather import Base
+from models.CurrentWeather import Base_weather # bug fix: rename base.
 from utilities.dataScraping import JCD_api
 from utilities.weatherScraping import Weather_api
 from sqlalchemy import create_engine
 from dao.BikeStationsDao import BikeStation_api
-from dao.WeatherDao import weather_api
+from dao.CurrentWeatherDao import weather_api
 from dotenv import load_dotenv
 import os
 import json
@@ -36,16 +36,14 @@ api_city =os.getenv("API_W_CITY")
 
 
 class myThread (threading.Thread):
-   def __init__(self, threadID,jcd_obj,weather_obj,dao_weather):
+   def __init__(self, threadID,jcd_obj,dao_bike):
         threading.Thread.__init__(self)
         self.threadID = threadID
         self.jcd_obj = jcd_obj
-        self.weather_obj = weather_obj
-        self.dao_weather = dao_weather
+        self.dao_bike = dao_bike
    def run(self):
         print("Starting " + str(self.threadID))
-        # weather_api_history_run(self.jcd_obj,self.weather_obj,self.dao_weather)
-        weather_api_city_run(self.jcd_obj,self.weather_obj,self.dao_weather)
+        station_api_run(self.jcd_obj,self.dao_bike)
         print("Exiting " + str(self.threadID))
         return
 
@@ -68,21 +66,17 @@ def weather_api_history_run(jcd_api_obj,weather_api_obj,dao_weather):
     return
 
 
-def weather_api_city_run(jcd_api_obj, weather_api_obj, dao_weather):
+def weather_api_city_run(weather_api_obj, dao_weather):
     # Dublin city code : 2964574
     weather_api_obj.sendRequest(2964574)
+    # insert rows into RDS
+    dao_weather.insert_weather_to_db_forSingleDict(weather_api_obj.staions)
 
-    # just for view the data
-    with open('data.json', 'w', encoding='utf-8') as f:
-        json.dump(weather_api_obj.staions, f, ensure_ascii=False, indent=4)
-
-    ## filter result for wather api
-    # dao_weather.filter_weather_action(weather_api_obj.staions)
-
-    # TODO: Insert date to weather table.
-
-    return
-
+def station_api_run(jcd_api_obj,dao_bike):
+    # request JCD stations data
+    jcd_api_obj.sendRequest()
+    # insert rows into RDS
+    dao_bike.insert_stations_to_db(jcd_api_obj.staions)
 
 def main():
     # new crawling Api
@@ -91,6 +85,8 @@ def main():
 
     # create stations table in RDS
     Base.metadata.create_all(engine)
+    # create weather table in RDS
+    Base_weather.metadata.create_all(engine)
 
     # create dao obj
     dao_bike = BikeStation_api(engine)
@@ -105,18 +101,16 @@ def main():
         try:
             print("restart")
             # request JCD stations data
-            jcd_api_obj.sendRequest()
+            weather_api_city_run(weather_api_obj,dao_weather)
 
-            # using jcd_api_obj.staions to grep loation and time of each station as parameters of weather_api_obj.sendRequest()
-            # create new thread to mapping bike station info with weather info.
-            thread1 = myThread(1, jcd_api_obj, weather_api_obj, dao_weather);
+            # create new thread to scarp bike station info .
+            thread1 = myThread(1, jcd_api_obj,dao_bike);
             thread1.start()
 
-            # insert rows into RDS
-            # dao_bike.insert_stations_to_db(jcd_api_obj.staions)
             # pause for 5 min
-            print("sleep for five min")
+            print("sleep for ten min")
             time.sleep(10 * 60)
+
         except Exception as e:
             print("something wrong", e)
             time.sleep(1 * 60)
