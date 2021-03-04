@@ -57,7 +57,7 @@ class BikeStation_api:
                 self.session.commit()
             except Exception as e:
                 self.session.rollback() # fix bug in commit 31509e2dc0cc62683d4c8249a0769cf5520ca01f
-                print('Error message',e)
+                # print('Error message',e)
                 pass
 
     #TODO:

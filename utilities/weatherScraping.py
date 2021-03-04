@@ -16,8 +16,6 @@ class Weather_api:
         self._request = None
         self.staions = None
         self.city = "Dublin"
-        # self.lat = 53.3568
-        # self.lon = -6.26814
 
     # historical data use api_history.
     def sendRequest(self, lat, lon, dt):
@@ -25,6 +23,7 @@ class Weather_api:
             self._request = requests.get(self._api, params={"appid": self._appid, "lat": lat, "lon": lon, "dt": dt})
             print(self._request.url)
             json.loads(self._request.text)
+            print(json.loads(self._request.text))
             self.staions.append(self._request.json())
         except:
             print("send request fail: ", self._request)
@@ -34,7 +33,7 @@ class Weather_api:
         try:
             self._request = requests.get(self._api, params={"appid": self._appid, "id": id})
             print(self._request.url)
-            json.loads(self._request.text)
+            print(json.loads(self._request.text))
             self.staions = self._request.json()
         except:
             print("send request fail: ", self._request)

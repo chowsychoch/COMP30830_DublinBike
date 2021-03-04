@@ -104,7 +104,7 @@ def main():
             weather_api_city_run(weather_api_obj,dao_weather)
 
             # create new thread to scarp bike station info .
-            thread1 = myThread(1, jcd_api_obj,dao_bike);
+            thread1 = myThread(1, jcd_api_obj,dao_bike)
             thread1.start()
 
             # pause for 5 min
