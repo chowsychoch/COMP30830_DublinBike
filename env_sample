@@ -1,0 +1,11 @@
+#Keep a file for reference
+URI=
+PORT=3306
+PASSWORD=
+DB=
+User=
+API=https://api.jcdecaux.com/vls/v1/stations
+APIKEY=
+APIKEY_W=
+API_W=https://api.openweathermap.org/data/2.5/onecall/timemachine
+API_W_CITY=https://api.openweathermap.org/data/2.5/weather
