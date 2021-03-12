@@ -107,7 +107,7 @@ def main():
             thread1 = myThread(1, jcd_api_obj,dao_bike)
             thread1.start()
 
-            # pause for 5 min
+            # pause for 10 min
             print("sleep for ten min")
             time.sleep(10 * 60)
 
