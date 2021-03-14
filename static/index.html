@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+</head>
+
+<body>
+    <h1>Hi there</h1>
+    <script>fetch("/station").then(response => {
+            let data = response.json();
+            console.log("data: ", data);
+        }).catch(err => {
+            console.log("OOPS", err);
+        })
+    </script>
+</body>
+
+</html>
