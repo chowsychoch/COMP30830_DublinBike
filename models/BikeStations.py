@@ -23,3 +23,17 @@ class Stations(Base):
     available_bikes = Column('available_bikes', Integer)
     last_update = Column('last_update', DATETIME, primary_key=True)
 
+    # reference: https://blog.csdn.net/u011089760/article/details/90142672
+    def obj_to_dict(self):  # for build json format
+        return {
+            "number": self.number,
+            "name": self.name,
+            "address": self.address,
+            "pos_lat": self.pos_lat,
+            "pos_lng": self.pos_lng,
+            "bike_stands": self.bike_stands,
+            "available_bike_stands": self.available_bike_stands,
+            "available_bikes": self.available_bikes,
+            "last_update": str(self.last_update)
+        }
+
