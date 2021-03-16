@@ -14,9 +14,9 @@ from models.BikeStations import Stations
 # Web development
 from flask import Flask, render_template, request, jsonify
 from sqlalchemy import create_engine
-from jinja2 import Template,PackageLoader, Environment
+# from jinja2 import Template,PackageLoader, Environment
 
-local_path = os.path.abspath(os.curdir)
+local_path = os.path.abspath(os.curdir)+"/.."
 print(local_path)
 config_path = local_path+"/.env"
 print(config_path)
@@ -46,11 +46,12 @@ def get_stations():
     data = []
     # query the station with more than 10 avalible bike within 10 minutes from current time.
     now_minus_10 = (datetime.now() - timedelta(minutes=10)).strftime("%Y-%m-%d %H:%M")
-    stations_info = dao_bike.session.query(Stations).filter(Stations.last_update > now_minus_10).filter(
-        Stations.available_bikes > 0).all()
+    stations_info = dao_bike.session.query(Stations).distinct(Stations.name).filter(Stations.last_update > now_minus_10).filter(
+        Stations.available_bikes > 0).order_by(Stations.name).all() #TODO: Issue duplicate station name.
     stations_list_dict = dict_helper(stations_info)
+    return render_template('stations.html', stations_info=stations_list_dict)
+    # return jsonify(stations=stations_list_dict)
 
-    return jsonify(stations=stations_list_dict)
 
 #Get the all station points with their latest update
 @app.route("/station")
@@ -58,12 +59,6 @@ def get_station():
     df = pd.read_sql_query("select number,name, address,pos_lat,pos_lng,bike_stands,available_bikes,max(last_update) from dublinBike.stations group by number",engine)
     print(df.head().to_json(orient='records'))
     return df.to_json(orient='records')
-
-@app.route("/test")
-def test():
-    #TODO: connect with stations.html
-    pass
-
 
 @app.route("/")
 def index():

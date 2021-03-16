@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello {{name}}</title>
+</head>
+<body>
+<table style="width:100%">
+  <tr>
+    <th>name</th>
+    <th>available_bike_stands</th>
+    <th>available_bikes</th>
+    <th>bike_stands</th>
+    <th>last_update</th>
+  </tr>
+    {% if stations_info %}
+    {% for station in stations_info%}
+  <tr>
+    <td>{{station["name"]}}</td>
+    <td>{{station["available_bike_stands"]}}</td>
+    <td>{{station["available_bikes"]}}</td>
+    <td>{{station["bike_stands"]}}</td>
+    <td>{{station["last_update"]}}</td>
+  </tr>
+    {% endfor %}
+    {% endif %}
+</table>
+
+</body>
+</html>
