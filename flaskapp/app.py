@@ -1,10 +1,14 @@
 # Basic usage
-import os
+import os,sys
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 
 # Data processing
 import pandas as pd
+
+print (sys.path)
+#vscode usage
+sys.path.append(os.path.abspath(os.curdir))
 
 # Customized usage
 from dao.BikeStationsDao import BikeStation_api
@@ -15,8 +19,11 @@ from models.BikeStations import Stations
 from flask import Flask, render_template, request, jsonify
 from sqlalchemy import create_engine
 # from jinja2 import Template,PackageLoader, Environment
+#Pycharm usage 
+#local_path = os.path.abspath(os.curdir)+"/.."
+#vs code usage 
+local_path = os.path.abspath(os.curdir)
 
-local_path = os.path.abspath(os.curdir)+"/.."
 print(local_path)
 config_path = local_path+"/.env"
 print(config_path)
@@ -62,7 +69,7 @@ def get_station():
 
 @app.route("/")
 def index():
-    return app.send_static_file("index.html")
+    return render_template('index.html')
 
 if __name__ == "__main__":
     app.run(debug=True)

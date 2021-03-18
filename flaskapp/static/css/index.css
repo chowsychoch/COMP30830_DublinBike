@@ -1,0 +1,13 @@
+#nav-bar{
+    height:10%
+}
+#map {
+    position: fixed !important; 
+    height: 80% !important;
+    width: 100% !important;
+}
+#container {
+    height: 100%;
+    margin: 5;
+    /* padding: 10; */
+}
