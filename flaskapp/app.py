@@ -16,6 +16,8 @@ from dao.CurrentWeatherDao import weather_api
 from models.BikeStations import Stations
 
 # Web development
+from flask_fontawesome import FontAwesome
+
 from flask import Flask, render_template, request, jsonify
 from sqlalchemy import create_engine
 # from jinja2 import Template,PackageLoader, Environment
@@ -38,7 +40,7 @@ mysql_url = "mysql+pymysql://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, D
 #____________________________________________________________________________________#
 
 app = Flask(__name__)
-
+fa = FontAwesome(app)
 engine = create_engine(mysql_url, echo=True)
 dao_bike = BikeStation_api(engine)
 

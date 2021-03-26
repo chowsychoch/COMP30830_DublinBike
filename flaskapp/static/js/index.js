@@ -14,6 +14,7 @@ function initMap() {
         });
         //print marker
         printMarker(data)
+        printUserOption(data)
     }).catch(err => {
         console.log("Map Err", err);
     })
@@ -40,6 +41,34 @@ function printMarker(data) {
         item.addListener("click", () => {
             infoWindow.open(map, item);
         })
+        // const cityCircle = new google.maps.Circle({
+        //     strokeColor: "#FF0000",
+        //     strokeOpacity: 0.8,
+        //     strokeWeight: 2,
+        //     fillColor: "#FF0000",
+        //     fillOpacity: 0.35,
+        //     map,
+        //     center: { lat: 41.878, lng: -87.629 },
+        //     radius: 100
+        //   });
     }
 
+}
+
+function printUserOption(data){
+    const elem = document.createElement('select');
+    elem.setAttribute('class','form-select')
+    elem.setAttribute('aria-label','Default select example')
+    elem.innerHTML+=`
+    <option selected>Select a Station</option>
+    `
+    for (let item of data) {
+        elem.innerHTML += `
+        <option value="${item['number']}">${item['name']}</option>
+        `
+    }
+    elem.innerHTML+=`<input class="btn btn-primary" type="submit" value="Submit">`
+    
+    const option = document.getElementById("option")
+    option.appendChild(elem)
 }
