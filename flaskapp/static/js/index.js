@@ -125,7 +125,8 @@ function showChartDaily(id) {
             let time = GMTToDay(date)
             labels.push(time);
         }
-        createChart('line', 'Daily Average Bikes Available', labels, data, "average_day_chart", 'rgba(255, 99, 132, 0.2)', 'rgba(153, 102, 255, 1)');
+        let name = average_day_bike[0].name;
+        createChart('line', 'Daily Average Bikes Available:' + name, labels, data, "average_day_chart", 'rgba(255, 99, 132, 0.2)', 'rgba(153, 102, 255, 1)');
     });
 }
 

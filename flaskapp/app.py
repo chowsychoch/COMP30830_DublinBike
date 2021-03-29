@@ -85,11 +85,13 @@ def station_msg(station_id):
 @app.route("/occupancy/<int:station_id>")
 def get_occupancy(station_id):
     sql = f"""
-    select number, last_update, available_bike_stands, available_bikes from stations where number = {station_id}
+    select name, number, last_update, available_bike_stands, available_bikes from stations where number = {station_id}
     """
     df = pd.read_sql_query(sql, engine)
+    name = df['name'].values[0]
     res_df = df.set_index('last_update').resample('1d').mean()
     res_df['last_update'] = res_df.index
+    res_df['name'] = name
     return res_df.to_json(orient='records')
 
 if __name__ == "__main__":
