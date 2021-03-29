@@ -73,5 +73,24 @@ def get_station():
 def index():
     return render_template('index.html')
 
+@app.route("/stations/<int:station_id>")
+def station_msg(station_id):
+    sql = f"""
+    select name, address, available_bike_stands, available_bikes from stations where number = {station_id} order by last_update desc limit 1
+    """
+    df = pd.read_sql_query(sql, engine)
+    return df.to_json(orient='records')
+
+
+@app.route("/occupancy/<int:station_id>")
+def get_occupancy(station_id):
+    sql = f"""
+    select number, last_update, available_bike_stands, available_bikes from stations where number = {station_id}
+    """
+    df = pd.read_sql_query(sql, engine)
+    res_df = df.set_index('last_update').resample('1d').mean()
+    res_df['last_update'] = res_df.index
+    return res_df.to_json(orient='records')
+
 if __name__ == "__main__":
     app.run(debug=True)

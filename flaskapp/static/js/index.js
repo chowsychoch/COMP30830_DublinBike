@@ -1,26 +1,41 @@
 let map;
+var charts = null
 // Initialize and add the map
 function initMap() {
+     var hashmap = new Map();
     fetch("/station").then(response => {
         //call the get api to get all stations point first
         return response.json()
     }).then(data => {
-        //add the map 
+        //add the map
         map = new google.maps.Map(document.getElementById("map"), {
             //disable default clickable landmark
             clickableIcons: false,
             center: { lat: 53.347777, lng: -6.244239 },
             zoom: 14,
         });
-        //print marker
-        printMarker(data)
+        for (let item of data) {
+            let number = item['number']
+            item = new google.maps.Marker({
+                position: {lat: item['pos_lat'], lng: item['pos_lng']},
+                map: map,
+            })
+            hashmap.set(number, item);
+        }
+        // iterate th map, pass the key and value to click function
+        for (var entry of hashmap) {
+            let[number, i] = entry
+            // pass the number of station and marker， add listener function
+            // when click the marker, call showClick
+            i.addListener("click", () => showClick(number, i));
+        }
         printUserOption(data)
     }).catch(err => {
         console.log("Map Err", err);
     })
 
 }
-function printMarker(data) {
+/*function printMarker(data) {
     //loop over result and pass it to marker
     for (let item of data) {
         //info box of each marker
@@ -53,7 +68,7 @@ function printMarker(data) {
         //   });
     }
 
-}
+}*/
 
 function printUserOption(data){
     const elem = document.createElement('select');
@@ -71,4 +86,96 @@ function printUserOption(data){
     
     const option = document.getElementById("option")
     option.appendChild(elem)
+}
+
+function showClick(id, i) {
+    //print marker
+    printMarker(id, i)
+    showChartDaily(id)
+}
+
+function printMarker(id, i) {
+    // get the message of this station of id
+    fetch("/stations/" + id).then (response => {
+        return response.json()
+    }).then(data => {
+        const contentString = `
+        <div id="content">Name: ${data[0].name}</div>
+        <div class="info">Address: ${data[0].address}</div>
+        <div class="info">Available Bikes: ${data[0].available_bikes}</div>
+        <div class="info">Bike stands: ${data[0].available_bike_stands}</div>
+        `
+        const infoWindow = new google.maps.InfoWindow({
+            content: contentString
+        })
+        infoWindow.open(map, i);
+    })
+}
+
+// show the daily chart
+function showChartDaily(id) {
+    // get labels and data
+    let data = new Array();
+    let labels = new Array();
+    $.getJSON('/occupancy/' + id, average_day_bike => {
+        // parse json to an object
+        for (var i in average_day_bike) {
+            data.push(average_day_bike[i].available_bikes);
+            var date = new Date(average_day_bike[i].last_update);
+            let time = GMTToDay(date)
+            labels.push(time);
+        }
+        createChart('line', 'Daily Average Bikes Available', labels, data, "average_day_chart", 'rgba(255, 99, 132, 0.2)', 'rgba(153, 102, 255, 1)');
+    });
+}
+
+function GMTToDay(time){
+    let date = new Date(time)
+    let Str=date.getFullYear() + '-' +
+    (date.getMonth() + 1) + '-' +
+    date.getDate()
+    return Str
+}
+
+
+function createChart(chartType, title, labels, data, elementId, backgroundColor='rgba(102, 122, 205, 0.2)', borderColor='rgba(54, 162, 235, 1)') {
+    if (charts) {
+        charts.destroy();
+    }
+    var ctx = document.getElementById(elementId).getContext('2d');
+    var chartConfig = {
+        type: chartType,
+        data: {
+            labels: labels,
+            datasets: [{
+                label: title,
+                data: data,
+                backgroundColor: backgroundColor,
+                borderColor: borderColor,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            animation: {
+                onComplete: null
+            },
+            legend: {
+                display: false
+            },
+            title: {
+                position: 'top',
+                display: true,
+                text: title
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    };
+    charts = new Chart(ctx, chartConfig);
+    return charts;
 }
