@@ -115,18 +115,48 @@ function printMarker(id, i) {
 // show the daily chart
 function showChartDaily(id) {
     // get labels and data
-    let data = new Array();
-    let labels = new Array();
+    let weekMap = new Map();
     $.getJSON('/occupancy/' + id, average_day_bike => {
         // parse json to an object
         for (var i in average_day_bike) {
-            data.push(average_day_bike[i].available_bikes);
-            var date = new Date(average_day_bike[i].last_update);
-            let time = GMTToDay(date)
-            labels.push(time);
+            var day = average_day_bike[i].Weekday;
+            var array_bike = average_day_bike[i].available_bikes;
+            if (weekMap.has(day)) {
+                let temp = weekMap.get(day)
+                weekMap.set(day, array_bike + temp);
+            }else {
+                weekMap.set(day, array_bike);
+            }
+            // var date = new Date(average_day_bike[i].last_update);
+            // let time = GMTToDay(date)
+            // labels.push(time)
+        }
+        // define new labels, initialize the array
+        var average_week_data = new Array(7)
+        for(let i = 0; i < 7; i++) {
+            average_week_data[i] = 0;
+        }
+        var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        // get the weekday
+        for(var [key, value] of weekMap) {
+            if (key == 1) {
+                average_week_data[1] += value;
+            } else if (key == 2) {
+                average_week_data[2] += value;
+            }else if (key == 3) {
+                average_week_data[3] += value;
+            }else if (key == 4) {
+                average_week_data[4] += value;
+            }else if (key == 5) {
+                average_week_data[5] += value;
+            }else if (key == 6) {
+                average_week_data[6] += value;
+            }else if (key == 7) {
+                average_week_data[0] += value;
+            }
         }
         let name = average_day_bike[0].name;
-        createChart('line', 'Daily Average Bikes Available:' + name, labels, data, "average_day_chart", 'rgba(255, 99, 132, 0.2)', 'rgba(153, 102, 255, 1)');
+        createChart('line', 'Daily Average Bikes Available:' + name, weekdays, average_week_data, "average_day_chart", 'rgba(255, 99, 132, 0.2)', 'rgba(153, 102, 255, 1)');
     });
 }
 
