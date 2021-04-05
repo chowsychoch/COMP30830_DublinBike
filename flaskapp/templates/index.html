@@ -2,28 +2,33 @@
 <html lang="en">
 
 <head>
+    <!-- Required meta tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0 ,shrink-to-fit=no">
+
     <title>Dublin Bike Homepage</title>
     {{ fontawesome_html() }}
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href="{{ url_for('static', filename='css/index.css') }}" rel="stylesheet">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"
-            integrity="sha256-TQq84xX6vkwR0Qs1qH5ADkP+MvH0W+9E7TdHJsoIQiM="
-            crossorigin="anonymous">
-    </script>
+    <!-- Chart js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"
+        integrity="sha256-TQq84xX6vkwR0Qs1qH5ADkP+MvH0W+9E7TdHJsoIQiM=" crossorigin="anonymous">
+        </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js">
     </script>
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-            crossorigin="anonymous">
-    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
+        </script>
+    <!-- local css file -->
+    <link href="{{ url_for('static', filename='css/index.css') }}" rel="stylesheet">
 </head>
 
 <body>
-
+    <!-- Nav bar  -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="/"><i style="font-size: 30px" class="fa fa-bicycle"></i> Dublin Bike</a>
 
@@ -46,31 +51,90 @@
             </ul>
             <div>
     </nav>
-
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-8">
-                <div id="map"></div>
+    <!-- Banner Section -->
+    <div class="container-fluid cust-container">
+        <div class="row outer-ban">
+            <!-- Description -->
+            <div class="col-md-6">
+                <div class="font">A bike besides you in Dublin</div>
+                <div class="font-md">DublinBike helps you to find a bike at your desirable time and station.
+                    <br>Commuting by bike is faster, safer and smarter :))
+                </div>
+                <button type="button" class="btn btn-success">Start to rent</button>
             </div>
-            <div class="col-sm-4">
-                <div id="option">
+            <!-- Banner Section -->
+            <div class="col-md-6" id="banner">
+                <img id="img-1" alt="D-bike" src="{{ url_for('static', filename='img/banner.jpg') }}" />
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid cust-container">
+        <div class="row outer-ban">
+            <div class="col-12 ">
+                <strong class="font-md">How does it work? </strong><br>
+                DublinBike analyzes over the past bike records across our 109 stations together with weather info to
+                help you to
+                predict when and where to get a bike.
+            </div>
+            <div class="col-4">
+                <div class="box">
+                    <i class="fa fa-search icon"></i>
+                    Choose your station and time
+                    <p>Find a station and time that you want to check</p>
                 </div>
 
+            </div>
+            <div class="col-4">
+                <div class="box">
+                    <i class="fa fa-laptop-code icon"></i>
+                    Analyze
+                    <p>Our machine learning model analyzes over the past rental records with several factors, which
+                        helps you to predict the occupancy and availability of bike</p>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="box">
+                    <i class="fa fa-calendar icon"></i>
+                    Book
+                    <p>Display results in a chart. So you can go there in a specific time to rent a bike with our app
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Google map -->
+    <div class="container-fluid cust-container">
+        <div class="row outer-ban">
+            <div class="col-md-6">
+                <div id="map"></div>
+            </div>
+            <div class="col-md-6">
+                <div class="daily" style="margin:40px 30px;">
+                    <canvas id="average_day_chart" class="zone"></canvas>
+                </div>
             </div>
 
         </div>
     </div>
 
-                <div class="daily" style="margin:40px 30px;">
-                    <canvas id="average_day_chart" class="zone"></canvas>
-                </div>
+    <div class="container-fluid cust-container">
+        <div class="row outer-ban">
+            <div class="col-md-6">
+                <div id="option">
+            </div>
+        </div>
+    </div>
 
+    </div>
+
+
+    <!-- local JS file  -->
     <script src="{{ url_for('static', filename='js/index.js') }}"></script>
     <script async
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMTVUhEGCodAG4zPUPWLs8_HMtt26Iujg&callback=initMap">
         </script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<!--     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    <!--     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
