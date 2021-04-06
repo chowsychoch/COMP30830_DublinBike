@@ -1,8 +1,9 @@
 let map;
 var charts = null
+
 // Initialize and add the map
 function initMap() {
-     var hashmap = new Map();
+    var hashmap = new Map();
     fetch("/station").then(response => {
         //call the get api to get all stations point first
         return response.json()
@@ -17,14 +18,14 @@ function initMap() {
         for (let item of data) {
             let number = item['number']
             item = new google.maps.Marker({
-                position: {lat: item['pos_lat'], lng: item['pos_lng']},
+                position: { lat: item['pos_lat'], lng: item['pos_lng'] },
                 map: map,
             })
             hashmap.set(number, item);
         }
         // iterate th map, pass the key and value to click function
         for (var entry of hashmap) {
-            let[number, i] = entry
+            let [number, i] = entry
             // pass the number of station and marker， add listener function
             // when click the marker, call showClick
             i.addListener("click", () => showClick(number, i));
@@ -70,11 +71,11 @@ function initMap() {
 
 }*/
 
-function printUserOption(data){
+function printUserOption(data) {
     const elem = document.createElement('select');
-    elem.setAttribute('class','form-select')
-    elem.setAttribute('aria-label','Default select example')
-    elem.innerHTML+=`
+    elem.setAttribute('class', 'form-select')
+    elem.setAttribute('aria-label', 'Default select example')
+    elem.innerHTML += `
     <option selected>Select a Station</option>
     `
     for (let item of data) {
@@ -82,8 +83,8 @@ function printUserOption(data){
         <option value="${item['number']}">${item['name']}</option>
         `
     }
-    elem.innerHTML+=`<input class="btn btn-primary" type="submit" value="Submit">`
-    
+    elem.innerHTML += `<input class="btn btn-primary" type="submit" value="Submit">`
+
     const option = document.getElementById("option")
     option.appendChild(elem)
 }
@@ -96,7 +97,7 @@ function showClick(id, i) {
 
 function printMarker(id, i) {
     // get the message of this station of id
-    fetch("/stations/" + id).then (response => {
+    fetch("/stations/" + id).then(response => {
         return response.json()
     }).then(data => {
         const contentString = `
@@ -124,7 +125,7 @@ function showChartDaily(id) {
             if (weekMap.has(day)) {
                 let temp = weekMap.get(day)
                 weekMap.set(day, array_bike + temp);
-            }else {
+            } else {
                 weekMap.set(day, array_bike);
             }
             // var date = new Date(average_day_bike[i].last_update);
@@ -133,25 +134,25 @@ function showChartDaily(id) {
         }
         // define new labels, initialize the array
         var average_week_data = new Array(7)
-        for(let i = 0; i < 7; i++) {
+        for (let i = 0; i < 7; i++) {
             average_week_data[i] = 0;
         }
         var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         // get the weekday
-        for(var [key, value] of weekMap) {
+        for (var [key, value] of weekMap) {
             if (key == 1) {
                 average_week_data[1] += value;
             } else if (key == 2) {
                 average_week_data[2] += value;
-            }else if (key == 3) {
+            } else if (key == 3) {
                 average_week_data[3] += value;
-            }else if (key == 4) {
+            } else if (key == 4) {
                 average_week_data[4] += value;
-            }else if (key == 5) {
+            } else if (key == 5) {
                 average_week_data[5] += value;
-            }else if (key == 6) {
+            } else if (key == 6) {
                 average_week_data[6] += value;
-            }else if (key == 7) {
+            } else if (key == 7) {
                 average_week_data[0] += value;
             }
         }
@@ -160,16 +161,16 @@ function showChartDaily(id) {
     });
 }
 
-function GMTToDay(time){
+function GMTToDay(time) {
     let date = new Date(time)
-    let Str=date.getFullYear() + '-' +
-    (date.getMonth() + 1) + '-' +
-    date.getDate()
+    let Str = date.getFullYear() + '-' +
+        (date.getMonth() + 1) + '-' +
+        date.getDate()
     return Str
 }
 
 
-function createChart(chartType, title, labels, data, elementId, backgroundColor='rgba(102, 122, 205, 0.2)', borderColor='rgba(54, 162, 235, 1)') {
+function createChart(chartType, title, labels, data, elementId, backgroundColor = 'rgba(102, 122, 205, 0.2)', borderColor = 'rgba(54, 162, 235, 1)') {
     if (charts) {
         charts.destroy();
     }

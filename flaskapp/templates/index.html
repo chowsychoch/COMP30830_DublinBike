@@ -120,7 +120,8 @@
     <div class="container-fluid cust-container">
         <div class="row outer-ban">
             <div class="col-md-6">
-                <div id="option">
+                <div id="option"></div>
+                <input type="text" name="daterange" value="" />
             </div>
         </div>
     </div>
@@ -130,6 +131,7 @@
 
     <!-- local JS file  -->
     <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dateTime.js') }}"></script>
     <script async
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMTVUhEGCodAG4zPUPWLs8_HMtt26Iujg&callback=initMap">
         </script>
@@ -143,6 +145,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+    <!-- Moment JS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+
 </body>
 
 </html>
