@@ -75,8 +75,9 @@ function printUserOption(data) {
     const elem = document.createElement('select');
     elem.setAttribute('class', 'form-select')
     elem.setAttribute('aria-label', 'Default select example')
+    elem.setAttribute('name', 'number')
     elem.innerHTML += `
-    <option selected>Select a Station</option>
+    <option value="" >Select a Station</option>
     `
     for (let item of data) {
         elem.innerHTML += `

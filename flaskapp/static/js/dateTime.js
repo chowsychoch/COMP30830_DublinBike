@@ -14,6 +14,7 @@ $(document).ready(function() {
   
     $('input[name="daterange"]').on('apply.daterangepicker', function(ev, picker) {
         $(this).val(picker.startDate.format('MM/DD/YYYY HH:mm'));
+        console.log(picker.startDate.format('MM/DD/YYYY HH:mm'))
     });
   
     $('input[name="daterange"]').on('cancel.daterangepicker', function(ev, picker) {

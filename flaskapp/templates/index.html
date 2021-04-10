@@ -119,9 +119,23 @@
 
     <div class="container-fluid cust-container">
         <div class="row outer-ban">
-            <div class="col-md-6">
-                <div id="option"></div>
-                <input type="text" name="daterange" value="" />
+            <div class="col-md-12">
+                <!-- Selection station box  -->
+                <form action="/something" method="POST" id="user-query">
+                    <div>
+                        <label id="option">
+                            Station Name:
+                            <!-- <div ></div> -->
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            Date and Time:
+                            <input type="text" name="date" value="" />
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
             </div>
         </div>
     </div>
