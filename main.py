@@ -12,8 +12,6 @@ import os
 import json
 import threading
 
-
-
 local_path = os.path.abspath(os.path.dirname(__file__))
 config_path = local_path+"/.env"
 load_dotenv(config_path)
@@ -33,6 +31,7 @@ appid=os.getenv("APIKEY_W")
 api= os.getenv("API_W")
 api_history = os.getenv("API_W")
 api_city =os.getenv("API_W_CITY")
+api_forecast =os.getenv("API_FCAST")
 
 
 class myThread (threading.Thread):
@@ -64,7 +63,6 @@ def weather_api_history_run(jcd_api_obj,weather_api_obj,dao_weather):
     # clear stations cause it use append to add new list.
     weather_api_obj.staions = []
     return
-
 
 def weather_api_city_run(weather_api_obj, dao_weather):
     # Dublin city code : 2964574
@@ -115,7 +113,5 @@ def main():
             print("something wrong", e)
             time.sleep(1 * 60)
 
-
 if __name__ == '__main__':
-
     main()

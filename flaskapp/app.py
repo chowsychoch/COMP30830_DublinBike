@@ -81,6 +81,9 @@ def station_msg(station_id):
     df = pd.read_sql_query(sql, engine)
     return df.to_json(orient='records')
 
+@app.route("/weather_forecast")
+def weather_forecast():
+    pass
 
 @app.route("/occupancy/<int:station_id>")
 def get_occupancy(station_id):
