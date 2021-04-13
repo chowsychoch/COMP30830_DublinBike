@@ -3,6 +3,7 @@ import json
 import sys
 import os
 import datetime
+import pandas as pd
 
 curPath = os.path.abspath(os.path.dirname(__file__))
 rootPath = os.path.split(curPath)[0]
@@ -39,48 +40,40 @@ class Weather_api:
             print("send request fail: ", self._request)
 
     # request forecast weather
-    def sendRequest_forecast(self):
+    def sendRequest_forecast(self): #return dataframe
         try:
-            self._request = requests.get(self._api, params={"appid": self._appid, "lat": 53.344, "lon": -6.2668, "exclude": ["current","minutely","daily","alerts"]})
+            self._request = requests.get(self._api, params={"appid": self._appid, "lat": 53.344, "lon": -6.2668, "exclude": "current,minutely,daily,alerts" })
             print(self._request.url)
             print(json.loads(self._request.text))
-            self.staions = self._request.json()
+            # return 48 hours prediction from request time.
+            self.staions = self._request.json()['hourly']
+            return self.convert_list2df(self.staions)
         except:
             print("send request fail: ", self._request)
 
     def filter_Weather(self, arr: dict):
-        if 'gust' not in arr['wind']:
-            d_gust = 0
-        else:
-            d_gust = arr['wind']['gust']
-        if 'rain' not in arr:
-            d_rain = 0
-        else:
-            d_rain = arr['rain']['rain_1h']
-        if 'snow' not in arr:
-            d_snow = 0
-        else:
-            d_snow = arr['snow']['snow_1h']
+
         return {
-            'lat': float(arr["coord"]['lat']),
-            'lon': float(arr["coord"]['lon']),
-            'timezone': arr['timezone'],
-            'current': datetime.datetime.fromtimestamp(arr['dt']),
-            'weather_id': int(arr['weather'][0]['id']),
-            'weather_icon': arr['weather'][0]['icon'],
-            'visibility': arr['visibility'],
-            'wind_speed': float(arr['wind']['speed']),
-            'wind_deg': float(arr['wind']['deg']),
-            'wind_gust': float(d_gust),
-            'temperature': float(arr['main']['temp']),
-            'feels_like': float(arr['main']['feels_like']),
-            'temp_min': float(arr['main']['temp_min']),
-            'temp_max': float(arr['main']['temp_max']),
-            'pressure': float(arr['main']['pressure']),
-            'humidity': float(arr['main']['humidity']),
-            'rain_1h': float(d_rain),
-            'snow_1h': float(d_snow),
-            'sunrise': datetime.datetime.fromtimestamp(arr['sys']['sunrise']),
-            'sunset': datetime.datetime.fromtimestamp(arr['sys']['sunset']),
-            'description': arr['weather'][0]['main']
+            'last_update': datetime.datetime.fromtimestamp(arr['dt']),
+            'wind_speed': float(arr["wind_speed"]),
+            'temperature': float(arr['temp']),
         }
+
+    def convert_list2df(self, list_weather):
+        weather_list = []
+        for i in range(len(list_weather)):
+            weather_list.append(self.filter_Weather(self.staions[i]))
+        df = pd.DataFrame(weather_list)
+        df['last_update'] = pd.to_datetime(df['last_update'])
+        df = df.set_index('last_update')
+        df['day_of_week'] = pd.to_datetime(df.index, format='%Y-%m-%d', errors='ignore').dayofweek
+        df['time'] = [d.time() for d in df.index]
+        # period = hour*6 + round(min/10)
+        df['period'] = df.apply(lambda x: (int(round(x["time"].minute / 10)) + x["time"].hour * 6), axis=1)
+        df = df[(df.period % 6 == 0) & (df.period != 0)]
+        df['hour'] = df['period'] // 6
+        df = df.reset_index()
+        drop_column = ['time', 'period']
+        df = df.drop(drop_column, axis=1)
+
+        return df
