@@ -186,6 +186,7 @@ def return_predict(station_id):
     # station_id = 36
 
     print(make_prediction(df_weather, station_id))
+    return make_prediction(df_weather, station_id)
 # if __name__ == '__main__':
 
 #     weather_api_obj = Weather_api(api_forecast, appid)
