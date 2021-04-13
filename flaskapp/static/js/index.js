@@ -179,16 +179,16 @@ function showPredict(id) {
                 for (var j1 in temp1) {
                     // j = 1 : {}, 2:{}, 3:{}.......
                     let hour_bike1 = predict_object['weekOfDay']['Mon']['hour'][j1]['ava_bikes'];
-                    weekday.push("Monday Hour: " + j);
+                    weekday.push("Monday Hour: " + j1);
                     y_labels.push(hour_bike1);
                 }
             }
             if (i == "Tue") {
                 let temp2 = predict_object['weekOfDay']['Tue']['hour'];
                 // temp1 = 'hour' :{1 : {"ava_bikes": 30}, 2: {"ava_bikes" : 20}, .....}
-                for (var j3 in temp2) {
+                for (var j2 in temp2) {
                     let hour_bike2 = predict_object['weekOfDay']['Tue']['hour'][j2]['ava_bikes']
-                    weekday.push("Tuesday Hour: " + j);
+                    weekday.push("Tuesday Hour: " + j2);
                     y_labels.push(hour_bike2);
                 }
             }
