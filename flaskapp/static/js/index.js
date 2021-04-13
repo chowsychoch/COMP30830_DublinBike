@@ -167,97 +167,80 @@ function showChartDaily(id) {
 function showPredict(id) {
     $.getJSON('/predict/' + id, predict_object => {
         let week_predict = predict_object['weekOfDay']
+        console.log(week_predict)
         // get the data from tuple, first get labels
         var weekday = new Array();
         var y_labels = new Array();
         // var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         for (var i in week_predict) {
-            if (i['Monday'] != null) {
-                let temp1 = i['Monday']['hour'];
+            if (i == "Mon") {
+                let temp1 = predict_object['weekOfDay']['Mon']['hour'];
                 // temp1 = 'hour' :{1 : {"ava_bikes": 30}, 2: {"ava_bikes" : 20}, .....}
                 for (var j in temp1) {
                     // j = 1 : {}, 2:{}, 3:{}.......
-                    for (k in j) {
-                        let hour_bike = k['ava_bikes']
-                        weekday.push("Monday hour:" + k);
-                        y_labels.push(hour_bike);
-                    }
+                    let hour_bike1 = predict_object['weekOfDay']['Mon']['hour'][j]['ava_bikes'];
+                    weekday.push("Monday Hour: " + j);
+                    y_labels.push(hour_bike1);
                 }
             }
-            if (i['Tuesday'] != null) {
-                let temp1 = i['Tuesday']['hour'];
+            if (i == "Tue") {
+                let temp1 = i['Tue']['hour'];
                 // temp1 = 'hour' :{1 : {"ava_bikes": 30}, 2: {"ava_bikes" : 20}, .....}
                 for (var j in temp1) {
-                    // j = 1 : {}, 2:{}, 3:{}.......
-                    for (k in j) {
-                        let hour_bike = k['ava_bikes'];
-                        weekday.push("Tuesday hour:" + k);
-                        y_labels.push(hour_bike);
-                    }
+                    let hour_bike2 = predict_object['weekOfDay']['Tue']['hour'][j]['ava_bikes']
+                    weekday.push("Tuesday Hour: " + j);
+                    y_labels.push(hour_bike2);
                 }
             }
-            if (i['Wednesday'] != null) {
-                let temp1 = i['Wednesday']['hour'];
+            if (i == "Wed") {
+                let temp1 = predict_object['weekOfDay']['Wed']['hour'];
                 // temp1 = 'hour' :{1 : {"ava_bikes": 30}, 2: {"ava_bikes" : 20}, .....}
                 for (var j in temp1) {
-                    // j = 1 : {}, 2:{}, 3:{}.......
-                    for (k in j) {
-                        let hour_bike = k['ava_bikes'];
-                        weekday.push("Wednesday hour:" + k);
-                        y_labels.push(hour_bike);
-                    }
+                    let hour_bike3 = predict_object['weekOfDay']['Wed']['hour'][j]['ava_bikes'];
+                    weekday.push("Wednesday hour: " + j);
+                    y_labels.push(hour_bike3);
                 }
             }
-            if (i['Thursday'] != null) {
-                let temp1 = i['Thursday']['hour'];
+            if (i == "Thu") {
+                let temp1 = predict_object['weekOfDay']['Thu']['hour'];
                 // temp1 = 'hour' :{1 : {"ava_bikes": 30}, 2: {"ava_bikes" : 20}, .....}
                 for (var j in temp1) {
-                    // j = 1 : {}, 2:{}, 3:{}.......
-                    for (k in j) {
-                        let hour_bike = k['ava_bikes'];
-                        weekday.push("Thursday hour:" + k);
-                        y_labels.push(hour_bike);
-                    }
+                    let hour_bike4 = predict_object['weekOfDay']['Thu']['hour'][j]['ava_bikes'];
+                    weekday.push("Thursday Hour : " + j);
+                    y_labels.push(hour_bike4);
                 }
             }
-            if (i['Friday'] != null) {
-                let temp1 = i['Friday']['hour'];
-                // temp1 = 'hour' :{1 : {"ava_bikes": 30}, 2: {"ava_bikes" : 20}, .....}
+            if (i == "Fri") {
+                let temp1 = predict_object['weekOfDay']['Fri']['hour'];
                 for (var j in temp1) {
                     // j = 1 : {}, 2:{}, 3:{}.......
-                    for (k in j) {
-                        let hour_bike = k['ava_bikes'];
-                        weekday.push("Friday hour:" + k);
-                        y_labels.push(hour_bike);
+                    let hour_bike5 = predict_object['weekOfDay']['Fri']['hour'][j]['ava_bikes'];
+                    weekday.push("Friday Hour: " + j);
+                    y_labels.push(hour_bike5);
                     }
                 }
-            }
-            if (i['Saturday'] != null) {
-                let temp1 = i['Saturday']['hour'];
+            if (i == "Sat") {
+                let temp1 = predict_object['weekOfDay']['Sat']['hour'];
                 // temp1 = 'hour' :{1 : {"ava_bikes": 30}, 2: {"ava_bikes" : 20}, .....}
                 for (var j in temp1) {
-                    // j = 1 : {}, 2:{}, 3:{}.......
-                    for (k in j) {
-                        let hour_bike = k['ava_bikes'];
-                        weekday.push("Saturday hour:" + k);
-                        y_labels.push(hour_bike);
-                    }
+                    let hour_bike6 = predict_object['weekOfDay']['Sat']['hour'][j]['ava_bikes'];
+                    weekday.push("Saturday Hour: " + j);
+                    y_labels.push(hour_bike6);
                 }
             }
-            if (i['Sunday'] != null) {
-                let temp1 = i['Sunday']['hour'];
+            if (i == "Sun") {
+                let temp1 = predict_object['weekOfDay']['Sun']['hour'];
                 // temp1 = 'hour' :{1 : {"ava_bikes": 30}, 2: {"ava_bikes" : 20}, .....}
                 for (var j in temp1) {
-                    // j = 1 : {}, 2:{}, 3:{}.......
-                    for (k in j) {
-                        let hour_bike = k['ava_bikes'];
-                        weekday.push("Sunday hour:" + k);
-                        y_labels.push(hour_bike);
-                    }
+                    let hour_bike6 = predict_object['weekOfDay']['Sun']['hour'][j]['ava_bikes'];
+                    weekday.push("Sunday Hour: " + j);
+                    y_labels.push(hour_bike6);
                 }
             }
         }
-        createChart('line', 'Predict Bikes Available:' + predict_object['station_id'], weekday, y_labels, "predict_chart", 'rgba(255, 99, 132, 0.2)', 'rgba(153, 102, 255, 1)');
+        console.log(weekday)
+        console.log(y_labels)
+        createChart('line', 'Predict Bikes Available, StationID:' + predict_object['station_id'], weekday, y_labels, "predict_chart", 'rgba(255, 99, 132, 0.2)', 'rgba(153, 102, 255, 1)');
     });
 }
 
@@ -271,9 +254,6 @@ function GMTToDay(time) {
 
 
 function createChart(chartType, title, labels, data, elementId, backgroundColor = 'rgba(102, 122, 205, 0.2)', borderColor = 'rgba(54, 162, 235, 1)') {
-    if (charts) {
-        charts.destroy();
-    }
     var ctx = document.getElementById(elementId).getContext('2d');
     var chartConfig = {
         type: chartType,
