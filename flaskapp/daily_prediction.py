@@ -177,12 +177,21 @@ def convert_list2df(list_weather):
     return df
 
 
-if __name__ == '__main__':
+def return_predict(station_id):
 
     weather_api_obj = Weather_api(api_forecast, appid)
 
     df_weather = weather_api_obj.sendRequest_forecast()
 
-    station_id = 36
+    # station_id = 36
 
     print(make_prediction(df_weather, station_id))
+# if __name__ == '__main__':
+
+#     weather_api_obj = Weather_api(api_forecast, appid)
+
+#     df_weather = weather_api_obj.sendRequest_forecast()
+
+#     station_id = 36
+
+#     print(make_prediction(df_weather, station_id))

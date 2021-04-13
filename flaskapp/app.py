@@ -14,7 +14,7 @@ sys.path.append(os.path.abspath(os.curdir))
 from dao.BikeStationsDao import BikeStation_api
 from dao.CurrentWeatherDao import weather_api
 from models.BikeStations import Stations
-
+from flaskapp.daily_prediction import return_predict
 # Web development
 from flask_fontawesome import FontAwesome
 
@@ -96,6 +96,12 @@ def get_occupancy(station_id):
     res_df['last_update'] = res_df.index
     res_df['name'] = name
     return res_df.to_json(orient='records')
+
+@app.route("/predict/<int:station_id>")
+def predict_daily(station_id):
+    predict_linear = return_predict(station_id)
+    # get the len of weekday
+    return eval(predict_linear)
 
 if __name__ == "__main__":
     app.run(debug=True)
