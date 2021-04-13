@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 # Data processing
 import pandas as pd
-
+import json
 print (sys.path)
 #vscode usage
 sys.path.append(os.path.abspath(os.curdir))
@@ -104,8 +104,9 @@ def get_about():
 @app.route("/predict/<int:station_id>")
 def predict_daily(station_id):
     predict_linear = return_predict(station_id)
-    # get the len of weekday
-    return eval(predict_linear)
+    # get the data of weekday
+    toJson = json.dumps(predict_linear)
+    return toJson
 
 if __name__ == "__main__":
     app.run(debug=True)

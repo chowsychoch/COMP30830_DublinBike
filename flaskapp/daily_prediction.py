@@ -151,7 +151,7 @@ def make_prediction(df_weather,station_id,stands = 40):
     ''''{"station_id": station_id, "weekOfDay" : {"Mon" : {"hour": {1 : {"ava_bikes": ava_bikes,"ava_stands": ava_stands}, 2:{"wind_speed": wind_speed,"temperature": temperature} }},"Tue" : {"hour": {1 : {"wind_speed": wind_speed,"temperature": temperature}, 2:{"wind_speed": wind_speed,"temperature": temperature} }} }}'''
     for i in range(len(df_weather["hour"])-24): # only shows one day forecast
         weekday = dict_weekDay[df_weather["day_of_week"][i]]
-        hour = df_weather["hour"][i]
+        hour = str(df_weather["hour"][i])
         ava_bike = int(linreg_predictions[i]*stands)
         ava_stands = stands - int(linreg_predictions[i]*stands)
         res_dict["weekOfDay"][weekday]["hour"][hour] = {"ava_bikes": ava_bike,"ava_stands": ava_stands}
@@ -186,6 +186,7 @@ def return_predict(station_id):
     # station_id = 36
 
     print(make_prediction(df_weather, station_id))
+    return make_prediction(df_weather, station_id)
 # if __name__ == '__main__':
 
 #     weather_api_obj = Weather_api(api_forecast, appid)
