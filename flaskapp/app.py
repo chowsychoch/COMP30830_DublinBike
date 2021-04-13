@@ -97,5 +97,9 @@ def get_occupancy(station_id):
     res_df['name'] = name
     return res_df.to_json(orient='records')
 
+@app.route("/about")
+def get_about():
+    return render_template('about.html')
+
 if __name__ == "__main__":
     app.run(debug=True)
