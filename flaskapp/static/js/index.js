@@ -232,9 +232,9 @@ function showPredict(id) {
                 let temp1 = predict_object['weekOfDay']['Sun']['hour'];
                 // temp1 = 'hour' :{1 : {"ava_bikes": 30}, 2: {"ava_bikes" : 20}, .....}
                 for (var j in temp1) {
-                    let hour_bike6 = predict_object['weekOfDay']['Sun']['hour'][j]['ava_bikes'];
+                    let hour_bike7 = predict_object['weekOfDay']['Sun']['hour'][j]['ava_bikes'];
                     weekday.push("Sunday Hour: " + j);
-                    y_labels.push(hour_bike6);
+                    y_labels.push(hour_bike7);
                 }
             }
         }
