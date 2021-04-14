@@ -58,3 +58,16 @@ img {
 .cust-container{
     margin-bottom: 10px;
 }
+
+#average_day_chart{
+    border: lightgoldenrodyellow solid;
+    border-radius: 5px;
+    padding:10px;
+    /* margin: auto; */
+    margin-top: 20%;
+    margin-bottom: 20%;
+}
+
+.daily{
+    
+}

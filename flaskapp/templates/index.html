@@ -109,11 +109,8 @@
                 <div id="map"></div>
             </div>
             <div class="col-md-6">
-                <div class="daily" style="margin:40px 30px;">
+                <div class="daily" >
                     <canvas id="average_day_chart" class="zone"></canvas>
-                </div>
-                <div class="daily" style="margin:40px 30px;">
-                    <canvas id="predict_chart" class="zone"></canvas>
                 </div>
             </div>
 
@@ -124,7 +121,8 @@
         <div class="row outer-ban">
             <div class="col-md-12">
                 <!-- Selection station box  -->
-                <form action="/something" method="POST" id="user-query">
+                <!-- <form action="/predict" method="POST" id="user-query"> -->
+                <form id="user-query">
                     <div>
                         <label id="option">
                             Station Name:
@@ -137,8 +135,14 @@
                             <input type="text" name="date" value="" />
                         </label>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
+                <button type="submit" class="btn btn-primary" onclick="userResult()">Submit</button>
+            </div>
+            <!-- Predict Result  -->
+            <div class="col-md-12">
+                <div class="daily" >
+                    <canvas id="predict_chart" ></canvas>
+                </div>
             </div>
         </div>
     </div>

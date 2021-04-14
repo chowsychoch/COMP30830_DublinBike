@@ -1,6 +1,7 @@
 let map;
 var charts = null
 
+
 // Initialize and add the map
 function initMap() {
     var hashmap = new Map();
@@ -74,7 +75,9 @@ function initMap() {
 function printUserOption(data) {
     const elem = document.createElement('select');
     elem.setAttribute('class', 'form-select')
+    elem.setAttribute('id', 'select-box')
     elem.setAttribute('aria-label', 'Default select example')
+    // elem.setAttribute('onChange', 'myNewFunction(this)')
     elem.setAttribute('name', 'number')
     elem.innerHTML += `
     <option value="" >Select a Station</option>
@@ -94,7 +97,7 @@ function showClick(id, i) {
     //print marker
     printMarker(id, i)
     showChartDaily(id)
-    showPredict(id)
+    // showPredict(id)
 }
 
 function printMarker(id, i) {
@@ -217,8 +220,8 @@ function showPredict(id) {
                     let hour_bike5 = predict_object['weekOfDay']['Fri']['hour'][j5]['ava_bikes'];
                     weekday.push("Friday Hour: " + j5);
                     y_labels.push(hour_bike5);
-                    }
                 }
+            }
             if (i == "Sat") {
                 let temp6 = predict_object['weekOfDay']['Sat']['hour'];
                 // temp1 = 'hour' :{1 : {"ava_bikes": 30}, 2: {"ava_bikes" : 20}, .....}
@@ -240,7 +243,7 @@ function showPredict(id) {
         }
         console.log(weekday)
         console.log(y_labels)
-        createChart('line', 'Predict Bikes Available, StationID:' + predict_object['station_id'], weekday, y_labels, "predict_chart", 'rgba(255, 99, 132, 0.2)', 'rgba(153, 102, 255, 1)');
+        createChart('line', 'Predict Bikes Available, StationID:' + predict_object['station_id'], weekday, y_labels, "predict_chart");
     });
 }
 
@@ -253,7 +256,7 @@ function GMTToDay(time) {
 }
 
 
-function createChart(chartType, title, labels, data, elementId, backgroundColor = 'rgba(102, 122, 205, 0.2)', borderColor = 'rgba(54, 162, 235, 1)') {
+function createChart(chartType, title, labels, data, elementId, borderColor = 'rgb(75, 192, 192)') {
     var ctx = document.getElementById(elementId).getContext('2d');
     var chartConfig = {
         type: chartType,
@@ -262,9 +265,11 @@ function createChart(chartType, title, labels, data, elementId, backgroundColor 
             datasets: [{
                 label: title,
                 data: data,
-                backgroundColor: backgroundColor,
-                borderColor: borderColor,
-                borderWidth: 1
+                borderWidth:3,
+                // backgroundColor: backgroundColor,
+                fill: false,
+                // tension: 0.1,
+                borderColor: borderColor
             }]
         },
         options: {
@@ -272,17 +277,36 @@ function createChart(chartType, title, labels, data, elementId, backgroundColor 
                 onComplete: null
             },
             legend: {
-                display: false
+                display: false,
             },
             title: {
                 position: 'top',
                 display: true,
-                text: title
+                text: title,
+                fontFamily: "'Montserrat', sans-serif"
             },
             scales: {
+                xAxes: [{
+                    gridLines: {
+                        drawOnChartArea: false,
+                    },
+                    ticks:{
+                        fontFamily:"'Montserrat', sans-serif"
+                    }
+                    // pointLabels: {
+                    //     fontFamily: "'Montserrat', sans-serif"
+                    // },
+                }],
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        fontFamily: "'Montserrat', sans-serif"
+                    },
+                    // pointLabels: {
+                    //     fontFamily: "'Montserrat', sans-serif"
+                    // },
+                    gridLines: {
+                        drawOnChartArea: false
                     }
                 }]
             }
@@ -290,4 +314,36 @@ function createChart(chartType, title, labels, data, elementId, backgroundColor 
     };
     charts = new Chart(ctx, chartConfig);
     return charts;
+}
+
+
+
+// document.querySelector('#user-query')
+// .addEventListener('submit',async function(event){
+//     event.preventDefault();
+
+//     // Serialize the Form afterwards
+//     const form = this;
+//     const formObject = {};
+//     for(let input of form){
+//         if(!['submit','reset'].includes(input.type)){
+//             formObject[input.name] = input.value;
+//         }
+//     }
+//     const res = await fetch('/predict',{
+//         method:"POST",
+//         headers:{
+//             "Content-Type":"application/json"
+//         },
+//         body: JSON.stringify(formObject)
+//     });
+//     const result = await res.json();
+//     console.log(result);
+// })
+
+async function userResult() {
+    var e = document.getElementById("select-box");
+    var id = e.value;
+    showPredict(id)
+
 }

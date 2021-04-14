@@ -100,7 +100,7 @@ def get_occupancy(station_id):
 @app.route("/about")
 def get_about():
     return render_template('about.html')
-    
+   
 @app.route("/predict/<int:station_id>")
 def predict_daily(station_id):
     predict_linear = return_predict(station_id)

@@ -121,7 +121,9 @@ def make_prediction(df_weather,station_id,stands = 40):
 
     dict_weekDay = {0:"Mon",1:"Tue",2:"Wed",3:"Thu", 4: "Fri", 5: "Sat", 6: "Sun"}
     features = ['day_of_week', 'hour', 'wind_speed', 'temperature']
-    filename = '../station_' + str(station_id) + '.sav'
+    # filename = '../station_' + str(station_id) + '.sav'
+    filename = './station_' + str(station_id) + '.sav'
+
     linreg = pickle.load(open(filename, 'rb'))
 
     # Print the estimated linear regression coefficients.
