@@ -65,7 +65,7 @@ def get_stations():
 #Get the all station points with their latest update
 @app.route("/station")
 def get_station():
-    df = pd.read_sql_query("select number,name, address,pos_lat,pos_lng,bike_stands,available_bikes,max(last_update) from dbike.stations group by number",engine)
+    df = pd.read_sql_query("select number,name, address,pos_lat,pos_lng,bike_stands,available_bikes,max(last_update) from dublinBike.stations group by number",engine)
     print(df.head().to_json(orient='records'))
     return df.to_json(orient='records')
 
