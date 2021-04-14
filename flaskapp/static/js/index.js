@@ -173,6 +173,8 @@ function showPredict(id) {
         console.log(week_predict)
         // get the data from tuple, first get labels
         var weekday = new Array();
+        var weekday_bikeStands = new Array();
+        var y_labels_bikeStand = new Array();
         var y_labels = new Array();
         // var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         for (var i in week_predict) {
@@ -182,8 +184,10 @@ function showPredict(id) {
                 for (var j1 in temp1) {
                     // j = 1 : {}, 2:{}, 3:{}.......
                     let hour_bike1 = predict_object['weekOfDay']['Mon']['hour'][j1]['ava_bikes'];
-                    weekday.push("Monday Hour: " + j1);
+                    let hour_bikeStands1 = predict_object['weekOfDay']['Mon']['hour'][j1]['ava_stands'];
+                    weekday.push(j1 +":00 Mon");
                     y_labels.push(hour_bike1);
+                    y_labels_bikeStand.push(hour_bikeStands1);
                 }
             }
             if (i == "Tue") {
@@ -191,8 +195,10 @@ function showPredict(id) {
                 // temp1 = 'hour' :{1 : {"ava_bikes": 30}, 2: {"ava_bikes" : 20}, .....}
                 for (var j2 in temp2) {
                     let hour_bike2 = predict_object['weekOfDay']['Tue']['hour'][j2]['ava_bikes']
-                    weekday.push("Tuesday Hour: " + j2);
+                    let hour_bikeStands2 = predict_object['weekOfDay']['Tue']['hour'][j2]['ava_stands'];
+                    weekday.push(j2+":00 Tue");
                     y_labels.push(hour_bike2);
+                    y_labels_bikeStand.push(hour_bikeStands2);
                 }
             }
             if (i == "Wed") {
@@ -200,8 +206,10 @@ function showPredict(id) {
                 // temp1 = 'hour' :{1 : {"ava_bikes": 30}, 2: {"ava_bikes" : 20}, .....}
                 for (var j3 in temp3) {
                     let hour_bike3 = predict_object['weekOfDay']['Wed']['hour'][j3]['ava_bikes'];
-                    weekday.push("Wednesday hour: " + j3);
+                    let hour_bikeStands3 = predict_object['weekOfDay']['Wed']['hour'][j3]['ava_stands'];
+                    weekday.push(j3 +":00 Wed");
                     y_labels.push(hour_bike3);
+                    y_labels_bikeStand.push(hour_bikeStands3);
                 }
             }
             if (i == "Thu") {
@@ -209,8 +217,10 @@ function showPredict(id) {
                 // temp1 = 'hour' :{1 : {"ava_bikes": 30}, 2: {"ava_bikes" : 20}, .....}
                 for (var j4 in temp4) {
                     let hour_bike4 = predict_object['weekOfDay']['Thu']['hour'][j4]['ava_bikes'];
-                    weekday.push("Thursday Hour : " + j4);
+                    let hour_bikeStands4 = predict_object['weekOfDay']['Thu']['hour'][j4]['ava_stands'];
+                    weekday.push(j4 +":00 Thurs");
                     y_labels.push(hour_bike4);
+                    y_labels_bikeStand.push(hour_bikeStands4);
                 }
             }
             if (i == "Fri") {
@@ -218,8 +228,10 @@ function showPredict(id) {
                 for (var j5 in temp5) {
                     // j = 1 : {}, 2:{}, 3:{}.......
                     let hour_bike5 = predict_object['weekOfDay']['Fri']['hour'][j5]['ava_bikes'];
-                    weekday.push("Friday Hour: " + j5);
+                    let hour_bikeStands5 = predict_object['weekOfDay']['Fri']['hour'][j5]['ava_stands'];
+                    weekday.push(j5+":00 Fri");
                     y_labels.push(hour_bike5);
+                    y_labels_bikeStand.push(hour_bikeStands5);
                 }
             }
             if (i == "Sat") {
@@ -227,8 +239,10 @@ function showPredict(id) {
                 // temp1 = 'hour' :{1 : {"ava_bikes": 30}, 2: {"ava_bikes" : 20}, .....}
                 for (var j6 in temp6) {
                     let hour_bike6 = predict_object['weekOfDay']['Sat']['hour'][j6]['ava_bikes'];
-                    weekday.push("Saturday Hour: " + j6);
+                    let hour_bikeStands6 = predict_object['weekOfDay']['Sat']['hour'][j6]['ava_stands'];
+                    weekday.push(j6+":00 Sat");
                     y_labels.push(hour_bike6);
+                    y_labels_bikeStand.push(hour_bikeStands6);
                 }
             }
             if (i == "Sun") {
@@ -236,14 +250,18 @@ function showPredict(id) {
                 // temp1 = 'hour' :{1 : {"ava_bikes": 30}, 2: {"ava_bikes" : 20}, .....}
                 for (var j7 in temp7) {
                     let hour_bike7 = predict_object['weekOfDay']['Sun']['hour'][j7]['ava_bikes'];
-                    weekday.push("Sunday Hour: " + j7);
+                    let hour_bikeStands7 = predict_object['weekOfDay']['Sun']['hour'][j7]['ava_stands'];
+                    weekday.push(j7 +":00 Sun");
                     y_labels.push(hour_bike7);
+                    y_labels_bikeStand.push(hour_bikeStands7);
                 }
             }
         }
         console.log(weekday)
         console.log(y_labels)
+        console.log('bike stn',y_labels_bikeStand)
         createChart('line', 'Predict Bikes Available, StationID:' + predict_object['station_id'], weekday, y_labels, "predict_chart");
+        createChart('line', 'Predict Bikes Stands Available, StationID:' + predict_object['station_id'], weekday, y_labels_bikeStand, "predict_chart_stands");
     });
 }
 
@@ -273,6 +291,16 @@ function createChart(chartType, title, labels, data, elementId, borderColor = 'r
             }]
         },
         options: {
+            plugins: {
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            },
             animation: {
                 onComplete: null
             },
@@ -283,7 +311,8 @@ function createChart(chartType, title, labels, data, elementId, borderColor = 'r
                 position: 'top',
                 display: true,
                 text: title,
-                fontFamily: "'Montserrat', sans-serif"
+                fontFamily: "'Montserrat', sans-serif",
+                size:20
             },
             scales: {
                 xAxes: [{

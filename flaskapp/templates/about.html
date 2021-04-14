@@ -20,7 +20,7 @@
 
 <body>
     <!-- Nav bar  -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light nav-bar">
         <a class="navbar-brand" href="/"><i style="font-size: 30px" class="fa fa-bicycle"></i> Dublin Bike</a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -44,32 +44,33 @@
     </nav>
 
     <div class="container">
+        <strong>This project is created by:</strong>
         <div class="row">
             <div class="col-sm">
-                col-sm
-                <div class="card" style="width: 18rem;">
-                    <img src="..." class="card-img-top" alt="...">
+                
+                <div class="card custom-card" style="width: 18rem;padding:10px;">
+                    <img src="{{ url_for('static', filename='img/woman.png') }}" class="card-img-top" alt="...">
                     <div class="card-body">
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      <p class="card-text">ChoMan</p>
                     </div>
                   </div>
 
             </div>
             <div class="col-sm">
-                col-sm
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ url_for('static', filename='img/jason.png') }}" class="card-img-top" alt="...">
+                
+                <div class="card custom-card" style="width: 18rem;padding:10px;">
+                    <img src="{{ url_for('static', filename='img/boy.png') }}" class="card-img-top" alt="...">
                     <div class="card-body">
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      <p class="card-text">Neo</p>
                     </div>
                   </div>
             </div>
             <div class="col-sm">
-                col-sm
-                <div class="card" style="width: 18rem;">
-                    <img src="..." class="card-img-top" alt="...">
+                
+                <div class="card custom-card" style="width: 18rem;padding:10px;">
+                    <img src="{{ url_for('static', filename='img/man.png') }}" class="card-img-top" alt="...">
                     <div class="card-body">
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      <p class="card-text">Minghan</p>
                     </div>
                   </div>
             </div>

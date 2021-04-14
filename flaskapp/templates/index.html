@@ -29,7 +29,7 @@
 
 <body>
     <!-- Nav bar  -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light nav-bar">
         <a class="navbar-brand" href="/"><i style="font-size: 30px" class="fa fa-bicycle"></i> Dublin Bike</a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -43,7 +43,7 @@
                     <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Journey Planner</a>
+                    <a class="nav-link" href="#map">Journey Planner</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/about">About Us</a>
@@ -60,7 +60,7 @@
                 <div class="font-md">DublinBike helps you to find a bike at your desirable time and station.
                     <br>Commuting by bike is faster, safer and smarter :))
                 </div>
-                <button type="button" class="btn btn-success">Start to rent</button>
+                <a type="button" class="btn btn-success" href="#user-query">Start to rent</a>
             </div>
             <!-- Banner Section -->
             <div class="col-md-6" id="banner">
@@ -110,7 +110,12 @@
             </div>
             <div class="col-md-6">
                 <div class="daily" >
-                    <canvas id="average_day_chart" class="zone"></canvas>
+                    <div id="canvas">
+                        <img alt="D-bike" src="{{ url_for('static', filename='img/curve-arrow.png') }}" />
+                        Click Me!
+                        <canvas id="average_day_chart" class="zone"></canvas>
+                    </div>
+                
                 </div>
             </div>
 
@@ -131,7 +136,7 @@
                     </div>
                     <div>
                         <label>
-                            Date and Time:
+                            Predict next 48 hours:
                             <input type="text" name="date" value="" />
                         </label>
                     </div>
@@ -140,8 +145,9 @@
             </div>
             <!-- Predict Result  -->
             <div class="col-md-12">
-                <div class="daily" >
+                <div class="predict-container" >
                     <canvas id="predict_chart" ></canvas>
+                    <canvas id="predict_chart_stands" ></canvas>
                 </div>
             </div>
         </div>
