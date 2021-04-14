@@ -122,8 +122,10 @@ def make_prediction(df_weather,station_id,stands = 40):
     dict_weekDay = {0:"Mon",1:"Tue",2:"Wed",3:"Thu", 4: "Fri", 5: "Sat", 6: "Sun"}
     features = ['day_of_week', 'hour', 'wind_speed', 'temperature']
     # filename = '../station_' + str(station_id) + '.sav'
-    filename = './station_' + str(station_id) + '.sav'
+    # filename = './station_' + str(station_id) + '.sav'
 
+    local_path = os.path.abspath(os.curdir)
+    filename = local_path + '/station_' + str(station_id) + '.sav'
     linreg = pickle.load(open(filename, 'rb'))
 
     # Print the estimated linear regression coefficients.
@@ -135,7 +137,7 @@ def make_prediction(df_weather,station_id,stands = 40):
     res_dict ={
             "station_id": station_id,
             "weekOfDay":{
-            #     "Mon": {"hour": {}},
+            #     "Mon": {"hour": {1 : {"ava_bikes": ava_bikes,"ava_stands": ava_stands}, 2 : {"ava_bikes": ava_bikes,"ava_stands": ava_stands}},
             #     "Tue": {"hour": {}},
             #     "Wed": {"hour": {}},
             #     "Thu": {"hour": {}},
@@ -159,42 +161,21 @@ def make_prediction(df_weather,station_id,stands = 40):
         res_dict["weekOfDay"][weekday]["hour"][hour] = {"ava_bikes": ava_bike,"ava_stands": ava_stands}
     return res_dict
 
-def convert_list2df(list_weather):
-    weather_list = []
-    for i in range(len(list_weather)):
-        weather_list.append(weather_api_obj.filter_Weather(weather_api_obj.staions[i]))
-    df = pd.DataFrame(weather_list)
-    df['last_update'] = pd.to_datetime(df['last_update'])
-    df = df.set_index('last_update')
-    df['day_of_week'] = pd.to_datetime(df.index, format='%Y-%m-%d',errors='ignore').dayofweek
-    df['time'] = [d.time() for d in df.index]
-    # period = hour*6 + round(min/10)
-    df['period'] = df.apply(lambda x: (int(round(x["time"].minute / 10)) + x["time"].hour * 6), axis=1)
-    df = df[(df.period % 6 == 0) & (df.period != 0)]
-    df['hour'] = df['period'] // 6
-    df = df.reset_index()
-    drop_column = ['time','period']
-    df = df.drop(drop_column, axis=1)
-
-    return df
-
-
 def return_predict(station_id):
 
     weather_api_obj = Weather_api(api_forecast, appid)
 
     df_weather = weather_api_obj.sendRequest_forecast()
 
-    # station_id = 36
-
-    print(make_prediction(df_weather, station_id))
     return make_prediction(df_weather, station_id)
+
 # if __name__ == '__main__':
-
+#
 #     weather_api_obj = Weather_api(api_forecast, appid)
-
+#
 #     df_weather = weather_api_obj.sendRequest_forecast()
-
+#
 #     station_id = 36
-
+#
 #     print(make_prediction(df_weather, station_id))
+
