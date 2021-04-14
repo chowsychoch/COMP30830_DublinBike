@@ -143,6 +143,7 @@ function showChartDaily(id) {
         for (let i = 0; i < 7; i++) {
             average_week_data[i] = 0;
         }
+        // weekday range:[0, 6]. 0 mean :monday
         var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         // get the weekday
         for (var [key, value] of weekMap) {
