@@ -139,26 +139,27 @@ function showChartDaily(id) {
         }
         // define new labels, initialize the array
         var average_week_data = new Array(7)
+        console.log(average_day_bike[7]);
         for (let i = 0; i < 7; i++) {
             average_week_data[i] = 0;
         }
-       var weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+        var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         // get the weekday
         for (var [key, value] of weekMap) {
-            if (key == 1) {
-                average_week_data[0] += value;
-            } else if (key == 2) {
+            if (key == 0) {
                 average_week_data[1] += value;
-            } else if (key == 3) {
+            } else if (key == 1) {
                 average_week_data[2] += value;
-            } else if (key == 4) {
+            } else if (key == 2) {
                 average_week_data[3] += value;
-            } else if (key == 5) {
+            } else if (key == 3) {
                 average_week_data[4] += value;
-            } else if (key == 6) {
+            } else if (key == 4) {
                 average_week_data[5] += value;
-            } else if (key == 7) {
+            } else if (key == 5) {
                 average_week_data[6] += value;
+            } else if (key == 6) {
+                average_week_data[0] += value;
             }
         }
         let name = average_day_bike[0].name;
