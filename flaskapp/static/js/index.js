@@ -259,6 +259,16 @@ function showPredict(id) {
                 }
             }
         }
+        for (let x in y_labels) {
+            if (y_labels[x] < 0) {
+                y_labels[x] = 0;
+            }
+        }
+        for (let k in y_labels_bikeStand) {
+            if (y_labels_bikeStand[k] < 0) {
+                y_labels_bikeStand[k] = 0;
+            }
+        }
         console.log(weekday)
         console.log(y_labels)
         console.log('bike stn',y_labels_bikeStand)
