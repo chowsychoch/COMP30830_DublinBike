@@ -161,7 +161,6 @@ function showChartDaily(id) {
         }
         // define new labels, initialize the array
         var average_week_data = new Array(7)
-        console.log(average_day_bike[7]);
         for (let i = 0; i < 7; i++) {
             average_week_data[i] = 0;
         }
@@ -185,6 +184,13 @@ function showChartDaily(id) {
                 average_week_data[0] += value;
             }
         }
+        console.log(day1);
+        console.log(day2);
+        console.log(day3);
+        console.log(day4);
+        console.log(day5);
+        console.log(day6);
+        console.log(average_week_data);
         // need to slash the day of our count
         for (let m = 0; m < 7; m++) {
             if (average_week_data[m] > 0) {
@@ -205,6 +211,7 @@ function showChartDaily(id) {
                 }
             }
         }
+        console.log("modified" + average_week_data);
         let name = average_day_bike[0].name;
         createChart('line', 'Daily Average Bikes Available:' + name, weekdays, average_week_data, "average_day_chart", 'rgba(255, 99, 132, 0.2)', 'rgba(153, 102, 255, 1)');
     });
