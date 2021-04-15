@@ -124,8 +124,30 @@ function showChartDaily(id) {
     let weekMap = new Map();
     $.getJSON('/occupancy/' + id, average_day_bike => {
         // parse json to an object
+        let day1 = 0;
+        let day2 = 0;
+        let day3 = 0;
+        let day4 = 0;
+        let day5 = 0;
+        let day6 = 0;
+        let day7 = 0;
         for (var i in average_day_bike) {
             var day = average_day_bike[i].Weekday;
+            if (day == 0) {
+                day1 += 1;
+            }else if (day == 1) {
+                day2 += 1;
+            }else if (day == 2) {
+                day3 += 1;
+            }else if (day == 3) {
+                day4 += 1;
+            }else if (day == 4) {
+                day5 += 1;
+            }else if (day == 5) {
+                day6 += 1;
+            }else if (day == 6) {
+                day7 += 1;
+            }
             var array_bike = average_day_bike[i].available_bikes;
             if (weekMap.has(day)) {
                 let temp = weekMap.get(day)
@@ -161,6 +183,26 @@ function showChartDaily(id) {
                 average_week_data[6] += value;
             } else if (key == 6) {
                 average_week_data[0] += value;
+            }
+        }
+        // need to slash the day of our count
+        for (let m = 0; m < 7; m++) {
+            if (average_week_data[m] > 0) {
+                if (m == 0) {
+                    average_week_data[m] = average_week_data[m] / day7;
+                }else if (m == 1) {
+                    average_week_data[m] = average_week_data[m] / day1;
+                }else if (m == 2){
+                    average_week_data[m] = average_week_data[m] / day2;
+                } else if (m == 3) {
+                    average_week_data[m] = average_week_data[m] / day3;
+                } else if (m == 4) {
+                    average_week_data[m] = average_week_data[m] / day4;
+                } else if (m == 5) {
+                    average_week_data[m] = average_week_data[m] / day5;
+                } else if (m == 6) {
+                    average_week_data[m] = average_week_data[m] / day6;
+                }
             }
         }
         let name = average_day_bike[0].name;
